@@ -14,7 +14,6 @@ async function init() {
     app.listen(port, () => {
       console.log(`Servidor escutando a porta http://${url}:${port}`);
     });
-
   } catch (error) {
     console.error(error);
   }
