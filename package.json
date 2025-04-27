@@ -1,0 +1,40 @@
+{
+	"name": "node-clean",
+	"version": "1.0.0",
+	"description": "",
+	"type": "module",
+	"main": "index.ts",
+	"scripts": {
+    "format": "prettier --write .",
+		"build": "tsup",
+		"prestart": "npm run build",
+		"start": "node dist/src/index.js",
+		"dev": "tsx watch src/index.ts",
+		"test": "echo \"Error: no test specified\" && exit 1"
+	},
+	"license": "ISC",
+	"author": "Diego Franco",
+	"dependencies": {
+		"dotenv": "^16.5.0",
+		"express": "^5.1.0"
+	},
+	"homepage": "https://github.com/diegotfranco/node-clean#readme",
+	"bugs": {
+		"url": "https://github.com/diegotfranco/node-clean/issues"
+	},
+	"repository": {
+		"type": "git",
+		"url": "git+https://github.com/diegotfranco/node-clean.git"
+	},
+	"devDependencies": {
+		"@types/express": "^5.0.1",
+		"@types/node": "^22.15.2",
+		"eslint": "^9.25.1",
+		"eslint-config-prettier": "^10.1.2",
+		"eslint-plugin-prettier": "^5.2.6",
+		"prettier": "^3.5.3",
+		"tsup": "^8.4.0",
+		"tsx": "^4.19.3",
+		"typescript": "^5.8.3"
+	}
+}
