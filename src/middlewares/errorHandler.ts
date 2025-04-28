@@ -1,25 +1,22 @@
-import type { Request, Response, NextFunction } from "express";
+import type { ErrorRequestHandler } from "express";
 import { isValidationError } from "errors/validationError";
 import { isAppError } from "errors/appError";
 
-export const errorHandler = (
-  err: unknown,
-  req: Request,
-  res: Response,
-  next: NextFunction,
-) => {
+export const errorHandler: ErrorRequestHandler = (err, req, res, next) => {
   if (isValidationError(err)) {
-    return res.status(400).json({
+    res.status(400).json({
       error: "Validation failed",
       errors: err.notification.errors.map((e) => ({
         field: e.field,
         error: e.message,
       })),
     });
+    return;
   }
 
   if (isAppError(err)) {
-    return res.status(err.statusCode).json({ error: err.message });
+    res.status(err.statusCode).json({ error: err.message });
+    return;
   }
 
   console.error("Unexpected error:", err);

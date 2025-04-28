@@ -10,7 +10,7 @@ const controller = wrapAsyncHandlers(ProdutoController);
 router.get("/", controller.listarProdutos);
 router.get("/:id", controller.buscarProdutoPorId);
 router.post("/", controller.criarProduto);
-router.put("/:id", controller.atualizarProduto);
+router.patch("/:id", controller.atualizarProduto);
 router.delete("/:id", controller.deletarProduto);
 
 export default router;

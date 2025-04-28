@@ -1,10 +1,12 @@
 import { z } from "zod";
 
 export const ProdutoSchema = z.object({
-  id: z.number().int(),
-  nome: z.string().min(1, "Nome é obrigatório"),
+  codigo: z.string().min(1, "código é obrigatório").max(50, "Tamanho máximo de 50 caracteres"),
+  nome: z.string().min(1, "nome é obrigatório"),
+  descricao: z.string().optional(),
   preco: z.number().positive("Preço deve ser positivo"),
-  estoque: z.number().int().nonnegative("Estoque não pode ser negativo"),
+  custo: z.number().positive("Custo deve ser positivo"),
+  quantidade: z.number().int().nonnegative("quantidade não pode ser negativa"),
 });
 
 export type ProdutoDTO = z.infer<typeof ProdutoSchema>;

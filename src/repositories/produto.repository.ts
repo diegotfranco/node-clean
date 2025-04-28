@@ -1,4 +1,5 @@
 import { sql } from "db/postgres";
+import type { ProdutoDTO } from "dtos/produto.dto";
 import type { Produto } from "types/produto.type";
 
 export const listarTodos = async (): Promise<Produto[]> => {
@@ -12,11 +13,9 @@ export const buscarPorId = async (id: number): Promise<Produto | null> => {
   return produto || null;
 };
 
-export const criar = async (data: Produto): Promise<Produto | undefined> => {
+export const criar = async (data: ProdutoDTO): Promise<Produto | undefined> => {
   const [novo] = await sql<Produto[]>`
-    INSERT INTO produtos (nome, preco, estoque)
-    VALUES (${data.nome}, ${data.preco}, ${data.estoque})
-    RETURNING *`;
+    INSERT INTO produtos ${sql(data)} RETURNING *`;
   return novo;
 };
 
@@ -25,12 +24,14 @@ export const atualizar = async (
   data: Partial<Produto>,
 ): Promise<Produto | undefined> => {
   const [produto] = await sql<Produto[]>`
-    UPDATE produtos SET ${sql(data)} WHERE id = ${id} RETURNING *`;
-
+  UPDATE produtos SET ${sql(data)}, updated_at = ${sql`now()`} WHERE id = ${id} RETURNING *`;
+  
   return produto;
-};
-
-export const deletar = async (id: number): Promise<boolean> => {
-  const result = await sql`DELETE FROM produtos WHERE id = ${id}`;
+  };
+  
+  export const deletar = async (id: number): Promise<boolean> => {
+    // const result = await sql`DELETE FROM produtos WHERE id = ${id}`;
+    const result = await sql<Produto[]>`
+      UPDATE produtos SET id_status = 0, updated_at = ${sql`now()`} WHERE id = ${id} RETURNING *`;
   return result.count > 0;
 };

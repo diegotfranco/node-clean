@@ -21,14 +21,14 @@ export const buscarProdutoPorId = async (
 
 export const criarProduto = async (
   input: ProdutoDTO,
-): Promise<Result<Produto>> => {
+): Promise<Result<Produto | undefined>> => {
   const parsed = ProdutoSchema.safeParse(input);
 
   if (!parsed.success) {
     const notification = notificationFromZodError(parsed.error);
     throw createValidationError(notification);
   }
-
+  
   const novoProduto = await produtoRepository.criar(parsed.data);
   return success(novoProduto);
 };
