@@ -1,3 +1,5 @@
+import { ZodError } from "zod";
+
 export type NotificationItem = {
   field: string;
   message: string;
@@ -24,9 +26,6 @@ export const hasErrors = (notification: Notification): boolean =>
 
 export const getErrors = (notification: Notification): NotificationItem[] =>
   notification.errors;
-
-// Função para converter erro do Zod em Notification
-import { ZodError } from "zod";
 
 export const notificationFromZodError = (error: ZodError): Notification => {
   return {

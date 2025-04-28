@@ -1,6 +1,6 @@
 import type { ErrorRequestHandler } from "express";
 import { isValidationError } from "errors/validationError";
-import { isAppError } from "errors/appError";
+import { isApiError } from "errors/ApiError";
 
 export const errorHandler: ErrorRequestHandler = (err, req, res, next) => {
   if (isValidationError(err)) {
@@ -14,7 +14,7 @@ export const errorHandler: ErrorRequestHandler = (err, req, res, next) => {
     return;
   }
 
-  if (isAppError(err)) {
+  if (isApiError(err)) {
     res.status(err.statusCode).json({ error: err.message });
     return;
   }

@@ -1,14 +1,14 @@
-export type AppError = {
+export type ApiError = {
   message: string;
   statusCode: number;
   isOperational: boolean;
 };
 
-const createAppError = (
+const createApiError = (
   message: string,
   statusCode: number,
   isOperational = true,
-): AppError => {
+): ApiError => {
   return { message, statusCode, isOperational };
 };
 
@@ -21,13 +21,13 @@ const errorDefinitions = {
 export const Errors = Object.entries(errorDefinitions).reduce(
   (acc, [key, { defaultMessage, statusCode }]) => {
     acc[key as keyof typeof errorDefinitions] = (message?: string) =>
-      createAppError(message ?? defaultMessage, statusCode);
+      createApiError(message ?? defaultMessage, statusCode);
     return acc;
   },
-  {} as Record<string, (message?: string) => AppError>,
+  {} as Record<string, (message?: string) => ApiError>,
 );
 
-export const isAppError = (error: any): error is AppError => {
+export const isApiError = (error: any): error is ApiError => {
   return (
     error &&
     typeof error.message === "string" &&
